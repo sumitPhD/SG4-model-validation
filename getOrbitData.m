@@ -52,7 +52,7 @@ revNo = 10;
     modTLE = [t0 dn0 ddn0 Bstar i0 Ohm0 e0 w0 M0 n0 revNo];
     
     %%
-dT = 0:0.1:1440*60; % in seconds (360 minutes)
+dT = 0:0.1:10000*60; % in seconds (360 minutes)
 [X, V] = sgp(modTLE, dT/60); 
 SGP_test_case = [dT/60; X'; V'];
 % plot(dT, X)
