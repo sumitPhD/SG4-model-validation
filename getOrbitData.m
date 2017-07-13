@@ -13,26 +13,36 @@
 %52.6988(argument of perigee- deg) 110.5714(mean anamoly-deg)
 %16.05824518(mean motion) 10(revolution number at epoach)5(checksum)%%
 
+
 %%
+%%TLE data of pratham
+% 1 99999U 16005A   16((epoach year)) 270.24769735(epoach day of year)  .00000368(1st derivative of mean motion)  
+%00000-0(second derivative of mean motion)  70534-4(B-star drag) 0  1235 (checksum)
+%2 99999  98.2056(inclination-degree) 327.8012(right ascension of ascending node) 0027951(eccentricity-decimal point assumed) 
+% 267.5222(argument of perigee- deg)   9.4278(mean anamoly-deg) 14.63691895(mean motion)    1(revolution number at epoach)3(checksum)
+
+
 % output of the sgp model here is in position (m) and velocity (m/s)
 % in the test data it is in position (km) and velocity (km/s)
 %%
-meanMo = 16.05824518;
-orbEcc= 0.0086731;
-orbInc= 72.8435;
-meanAno= 110.5714;
-argPer = 52.6988;
-rghtAsc= 115.9689;
-SGPdragp1 =.00073094;
-SGPdragp2 =0.13844*10^(-3);
-SGP4dragp =0.66816*10^(-4);
+% commented data belongs to sgp test data
+% non commented is of pratham
+meanMo =   14.63691895;  %16.05824518;
+orbEcc= 0.0027951;%0.0086731;
+orbInc= 98.2056;%72.8435;
+meanAno=  9.4278;%110.5714;
+argPer =267.5222; %52.6988;
+rghtAsc= 327.8012;%115.9689;
+SGPdragp1 =.00000368;%.00073094;
+SGPdragp2 =0;%0.13844*10^(-3);
+SGP4dragp = 0.70534*10^(-4);%0.66816*10^(-4);
 %Epyear EpJD and EpTime used for calculation of t0
 % BUT   t0 is not used in sgp.m 
 %sgp is meant to run when tle data equal to epoach
 EpYear =  0; %1980
 EpJD   = 0; %275.98..
 EpTime  = 0 ;
-revNo = 10;
+revNo = 1;%10;
 
 
 %%  
@@ -52,7 +62,7 @@ revNo = 10;
     modTLE = [t0 dn0 ddn0 Bstar i0 Ohm0 e0 w0 M0 n0 revNo];
     
     %%
-dT = 0:0.1:10000*60; % in seconds (360 minutes)
+dT = 0:0.1:4*60*60; % in seconds (24 hour)
 [X, V] = sgp(modTLE, dT/60); 
 SGP_test_case = [dT/60; X'; V'];
 % plot(dT, X)
