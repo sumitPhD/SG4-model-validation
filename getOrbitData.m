@@ -24,34 +24,46 @@
 
 % output of the sgp model here is in position (m) and velocity (m/s)
 % in the test data it is in position (km) and velocity (km/s)
+%% TLE DATA of pratham dated 19 July 2017 from n2yo
+% 1 41783U 16059A   17198.94132223 +.00000076(1st time deri mean motion) +00000-0 +24125-4 0  9997
+% 2 41783 098.1648(incl) 259.9939(rsc) 0034865(ecc) 065.5965(arg prg) 294.8869(mean anaomaly) 14.62844671043094
+%%
+%%get latest tle data from https://www.space-track.org/#/tle 
 %%
 % commented data belongs to sgp test data
 % non commented is of pratham
 meanMo =   14.63691895;  %16.05824518;
-orbEcc= 0.0027951;%0.0086731;
+orbEcc=0.0034865;% 0.0027951;%0.0086731;
 orbInc= 98.2056;%72.8435;
-meanAno=  9.4278;%110.5714;
-argPer =267.5222; %52.6988;
-rghtAsc= 327.8012;%115.9689;
-SGPdragp1 =.00000368;%.00073094;
-SGPdragp2 =0;%0.13844*10^(-3);
-SGP4dragp = 0.70534*10^(-4);%0.66816*10^(-4);
+meanAno=  294.8869;% 9.4278;%110.5714;   %% change
+argPer =065.5965;%267.5222; %52.6988;     %% change
+rghtAsc= 259.9939;%327.8012;%115.9689;     %% change
+SGPdragp1 =0.00000076;%.00073094;  % from ---First time derivative of mean motion(rad/min^2)
+SGPdragp2 =0;%0.13844*10^(-3);     % Second time derivative of mean motion (rad/min^3
+SGP4dragp = 0.24125*10^(-4);%0.66816*10^(-4);
 %Epyear EpJD and EpTime used for calculation of t0
 % BUT   t0 is not used in sgp.m 
 %sgp is meant to run when tle data equal to epoach
 EpYear =  0; %1980
 EpJD   = 0; %275.98..
 EpTime  = 0 ;
-revNo = 1;%10;
+revNo = 9;%10;
+%%launch 2
+% %  n0 = 2*pi*meanMo/1440; % Mean motion (rad/min) 
+% %     e0 = 0.0045; % Eccentricity (0.0<=e0>=1.0)   2)
+% %     i0 = pi*orbInc/180; % Inclination (rad)      3)
+% %     M0 = 5.0563; % Mean anomaly (rad)    4)
+% %     w0 = 1.2269; % Argument of perigee (rad)   5)
+% %     Ohm0 = 4.8003;
 
 
 %%  
-    n0 = 2*pi*meanMo/1440; % Mean motion (rad/min)
-    e0 = orbEcc; % Eccentricity (0.0<=e0>=1.0)
-    i0 = pi*orbInc/180; % Inclination (rad)
-    M0 = pi*meanAno/180; % Mean anomaly (rad)
-    w0 = pi*argPer/180; % Argument of perigee (rad)
-    Ohm0 = pi*rghtAsc/180; % Right ascension of the ascending node (rad)
+    n0 = 2*pi*meanMo/1440; % Mean motion (rad/min) 
+    e0 = orbEcc; % Eccentricity (0.0<=e0>=1.0)   2)
+    i0 = pi*orbInc/180; % Inclination (rad)      3)
+    M0 = pi*meanAno/180; % Mean anomaly (rad)    4)
+    w0 = pi*argPer/180; % Argument of perigee (rad)   5)
+    Ohm0 = pi*rghtAsc/180; % Right ascension of the ascending node (rad) 6)
     dn0 = 2*2*pi*SGPdragp1/(1440^2); % First time derivative of mean motion(rad/min^2)
     ddn0 = 6*2*pi*SGPdragp2/(1440^3); % Second time derivative of mean motion (rad/min^3)
     Bstar = SGP4dragp; % SGP4 type drag coefficient
@@ -62,7 +74,7 @@ revNo = 1;%10;
     modTLE = [t0 dn0 ddn0 Bstar i0 Ohm0 e0 w0 M0 n0 revNo];
     
     %%
-dT = 0:0.1:4*60*60; % in seconds (24 hour)
+dT = 0:1:2*60*60; % in seconds (24 hour)
 [X, V] = sgp(modTLE, dT/60); 
 SGP_test_case = [dT/60; X'; V'];
 % plot(dT, X)

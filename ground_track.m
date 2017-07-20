@@ -9,7 +9,7 @@ today = 0;
 equinox = 0;
 stperut = 1.00273790935;    % siderial time = stperut * universal time  
 W_EARTH_ROT = 2*pi/(24*60*60);   % rotation angular velocity of earth, SI
-T = SGP_test_case(1,:);
+T = SGP_test_case(1,:); % minutes
 x = SGP_test_case(2:4,:);
 N = length(x);
 LLA_test_case = zeros(4,N);
@@ -27,7 +27,6 @@ for i =1:N % keeping the gap high as the (it was taking too much time , not need
 %     plot(LLA_test_case(3,i),LLA_test_case(2,:))
 hold on
 end
-plot(LLA_test_case(3,:),LLA_test_case(2,:))
 xlabel('Longitude');
 ylabel('Lattitude');
 title('Ground track for pratham for 3 revolution');
